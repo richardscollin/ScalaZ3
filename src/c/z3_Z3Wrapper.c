@@ -1964,6 +1964,51 @@ JNIEXPORT jlong JNICALL Java_z3_Z3Wrapper_mkBVMulNoUnderflow (JNIEnv * env, jcla
 
     }
 
+//Interpolation API 
+
+JNIEXPORT jlong JNICALL Java_z3_Z3Wrapper_mkInterpolationContext
+  (JNIEnv *env, jclass cls, jlong configPtr) {
+
+  }
+
+JNIEXPORT jlong JNICALL Java_z3_Z3Wrapper_mkInterpolant
+  (JNIEnv *env, jclass cls, jlong contextPtr, jlong astPtr) {
+
+  }
+
+JNIEXPORT jstring JNICALL Java_z3_Z3Wrapper_interpolationProfile
+  (JNIEnv * env, jclass cls, jlong contextPtr) {
+
+  }
+
+JNIEXPORT jlong JNICALL Java_z3_Z3Wrapper_getInterpolant
+  (JNIEnv * env, jclass cls, jlong contextPtr, jlong astPtr1, jlong astPtr2, jlong z3Params) {
+
+  }
+
+JNIEXPORT jboolean JNICALL Java_z3_Z3Wrapper_computeInterpolant
+  (JNIEnv * env, jclass cls, jlong contextPtr, jlong astPtr, jlong z3Params, jobject interp, jobject model) {
+
+  }
+
+JNIEXPORT jint JNICALL Java_z3_Z3Wrapper_readInterpolationProblem
+  (JNIEnv * env, jclass cls, jlong contextPtr, jobject num, jobject astCnsts,
+   jobject parents, jstring filename, jobject error, jobject num_theory, jobject theory) {
+
+  }
+
+JNIEXPORT jint JNICALL Java_z3_Z3Wrapper_checkInterpolant
+  (JNIEnv * env, jclass cls, jlong contextPtr, jint num, jlongArray astCnsts,
+   jintArray parents, jlongArray astInterps, jobject error, jint num_theory, jlongArray theory) {
+
+  }
+
+JNIEXPORT void JNICALL Java_z3_Z3Wrapper_writeInterpolationProblem
+  (JNIEnv * env, jclass cls, jlong contextPtr, jint num, jlongArray astCnsts,
+   jintArray parents, jstring filename, jint num_theory, jlongArray astTheory) {
+
+  }
+
 #ifdef __cplusplus
 }
 #endif
