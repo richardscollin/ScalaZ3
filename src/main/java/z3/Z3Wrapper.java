@@ -545,6 +545,25 @@ public final class Z3Wrapper {
     public static native long astvectorGet(long contextPtr, long vectorPtr, int i);
     public static native void astvectorSet(long contextPtr, long vectorPtr, int i, long astPtr);
 
+    // Interpolation API
+    // Check with this file to make sure it is correct
+    //  z3/4.3-unix-64b/include/z3_interp.h
+    public static native long mkInterpolationContext(long configPtr);
+    public static native long mkInterpolant(long contextPtr, long astPtr);
+    public static native String interpolationProfile(long contextPtr);
+    public static native long getInterpolant(long contextPtr,  long astPtr1, long astPtr2, long z3Params);
+    public static native boolean computeInterpolant(long contextPtr, long astPtr, long z3Params, Pointer interp, Pointer model);
+
+    public static native int readInterpolationProblem(long contextPtr, Pointer num, Pointer astCnsts/*Pointer to sequence of formula*/,
+            Pointer parents/*Pointer to an int array*/, String filename, Pointer error, Pointer num_theory, Pointer theory);
+
+    public static native int checkInterpolant(long contextPtr, int num, long[] astCnsts, int[] parents,
+                                    long[] astInterps, Pointer error, int num_theory, long[] theory);
+
+    public static native void writeInterpolationProblem(long contextPtr, int num, long[] astCnsts,
+            int[] parents, String filename, int num_theory, long[] astTheory);
+
+
     // Error handling
     // Yet to come...
     // public static native void registerErrorHandler(long contextPtr, AbstractErrorHandler handler);
