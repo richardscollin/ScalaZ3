@@ -1982,7 +1982,7 @@ JNIEXPORT jlong JNICALL Java_z3_Z3Wrapper_mkBVMulNoUnderflow (JNIEnv * env, jcla
 
     JNIEXPORT jlong JNICALL Java_z3_Z3Wrapper_mkInterpolant
       (JNIEnv *env, jclass cls, jlong contextPtr, jlong astPtr) {
-        return astToJLong(Z3_mk_bound(asZ3Context(contextPtr), asZ3AST(astPtr)));
+        return astToJLong(Z3_mk_interpolant(asZ3Context(contextPtr), asZ3AST(astPtr)));
     }
 
     JNIEXPORT jstring JNICALL Java_z3_Z3Wrapper_interpolationProfile

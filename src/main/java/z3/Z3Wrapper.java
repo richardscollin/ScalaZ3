@@ -552,10 +552,11 @@ public final class Z3Wrapper {
     public static native long mkInterpolant(long contextPtr, long astPtr);
     public static native String interpolationProfile(long contextPtr);
     public static native long getInterpolant(long contextPtr,  long astPtr1, long astPtr2, long z3Params);
+
     public static native boolean computeInterpolant(long contextPtr, long astPtr, long z3Params, Pointer interp, Pointer model);
 
-    public static native int readInterpolationProblem(long contextPtr, Pointer num, Pointer astCnsts/*Pointer to sequence of formula*/,
-            Pointer parents/*Pointer to an int array*/, String filename, Pointer error, Pointer num_theory, Pointer theory);
+    public static native int readInterpolationProblem(long contextPtr, Pointer num, Pointer astCnsts,
+            Pointer parents, String filename, Pointer error, Pointer num_theory, Pointer theory);
 
     public static native int checkInterpolant(long contextPtr, int num, long[] astCnsts, int[] parents,
                                     long[] astInterps, Pointer error, int num_theory, long[] theory);

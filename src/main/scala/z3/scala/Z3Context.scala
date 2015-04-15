@@ -1224,6 +1224,89 @@ sealed class Z3Context(val config: Z3Config) {
     )
   }
 
+  //Z3 Interpolant API
+
+  // I think I will need to add in the param API as well.
+
+
+  def mkInterpolant(ast: Z3AST) : Z3AST = {
+      //FIXME The context passed in should probably be an interpolation_context not this.
+      new Z3AST(Z3Wrapper.mkInterpolant(this.ptr, ast.ptr), this)
+  }
+
+  def mkInterpolationContext(config: Z3Config) : Z3Context = {
+      // I feel like this should be it's own Class Z3InterpolationContext but I'm not sure.
+      new Z3Context(Z3Wrapper.mkInterpolantContext(config.ptr))
+  }
+
+  def getInterpolant(ast1: Z3AST, ast2 Z3AST /* , params Z3Params */) : Z3ASTVector = {
+      new Z3ASTVector(Z3Wrapper.getInterpolant(this.ptr, ast1, ast2 /*, params.ptr */ ), this)
+  }
+
+
+  def computeInterpolant(ast: Z3AST, /* params: Z3Params */) : (Option[Boolean], Z3ASTVector, Z3Model) = {
+    val interpPtr = new Pointer(0L)
+    val modelPtr = new Pointer(0L)
+
+    val status = i2ob(Z3Wrapper.computeInterpolant(this.ptr, ast.ptr, /*params.ptr,*/ interpPtr, modelPtr))
+    val interp = Z3ASTVector(interpPtr, this)
+    val model = Z3Model(interpPtr, this)
+
+    (status, interp, model)
+  }
+
+  Z3_string Z3_API Z3_interpolation_profile(__in Z3_context ctx);
+  def interpolationProfile() : String = {
+      //TODO
+  }
+
+  def readInterpolationProblem(filename: String) : (Int,) = {
+    val numPtr = new Pointer(0L)
+    val cnstsPtr = new Pointer(0L)
+
+    val parentsPtr = new Pointer(0L)
+
+    val stringPtr = new Pointer(0L)
+
+    val numTheoryPtr = new Pointer(0L)
+    val theoryPtr = new Pointer(0L)
+
+    val status = Z3Wrapper.readInterpolationProblem(this.ptr,
+        numPtr.ptr, cnstsPtr.ptr, parentsPtr.ptr, filename, stringPtr, 
+        numTheoryPtr, theoryPtr)
+
+    (status )
+  }
+
+  int Z3_API Z3_read_interpolation_problem(__in Z3_context ctx,
+          __in Z3_string filename,
+
+          __out unsigned *num,
+          __out Z3_ast *cnsts[],
+          __out unsigned *parents[],
+          __out_opt Z3_string_ptr error,
+          __out unsigned *num_theory,
+          __out Z3_ast *theory[]);
+
+  int Z3_API Z3_check_interpolant(__in Z3_context ctx,
+          __in unsigned num,
+          __in_ecount(num) Z3_ast cnsts[],
+          __in_ecount(num) unsigned parents[],
+          __in_ecount(num - 1) Z3_ast *interps,
+          __out_opt Z3_string_ptr error,
+          __in unsigned num_theory,
+          __in_ecount(num_theory) Z3_ast theory[]);
+
+  void Z3_API  Z3_write_interpolation_problem(__in Z3_context ctx,
+          __in unsigned num,
+          __in_ecount(num) Z3_ast cnsts[],
+          __in_ecount(num) unsigned parents[],
+          __in Z3_string filename,
+          __in unsigned num_theory,
+          __in_ecount(num_theory) Z3_ast theory[]);
+
+
+
   def mkTactic(name: String) : Z3Tactic = {
     return new Z3Tactic(Z3Wrapper.mkTactic(this.ptr, name), this)
   }
